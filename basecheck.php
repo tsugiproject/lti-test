@@ -53,13 +53,13 @@ if ( isset($_REQUEST['a']) && isset($_REQUEST['b']) ) {
 <body>
 <form action="basecheck.php" method="post">
 <p>Base String 1</p>
-<textarea name="a" rows="10" cols="80">
+<textarea name="a" rows="20" cols="100">
 <?php if ( isset($_REQUEST['a']) ) {
  echo(htmlentities($_REQUEST['a']));
 } ?>
 </textarea>
 <p>Base String 2</p>
-<textarea name="b" rows="10" cols="80">
+<textarea name="b" rows="20" cols="100">
 <?php if ( isset($_REQUEST['b']) ) {
  echo(htmlentities($_REQUEST['b']));
 } ?>
