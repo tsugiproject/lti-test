@@ -1,0 +1,59 @@
+<html>
+<head>
+</head>
+<body>
+    <b>Test caliper window.postMessage</b>
+    <p>
+    This page includes code to receive a "caliper" event through <b>window.postMessage</b> 
+    and includes an iframe which will can send us a caliper event.  You must include the
+    <b>ext_lti_element_id</b> paramter on the url that is placed in the iframe so we can
+    identify which frame sent us the message.
+    </p>
+    Url to place in top iframe including the <b>ext_lti_element_id</b> parameter:<br>
+    <button 
+        onclick="
+            document.getElementById('newurl').value='event-provider.htm?ext_lti_element_id=sakaicar_42';
+            document.getElementById('switcher').src=document.getElementById('newurl').value;
+        "
+    >Reset</button>
+    <button
+        onclick="document.getElementById('switcher').src=document.getElementById('newurl').value;"
+     >Set</button>
+    <input type="text" id="newurl" 
+        value="event-provider.htm?ext_lti_element_id=sakaicar_42"
+        style="width: 80%;">
+    <p>
+    <iframe src="event-provider.htm?ext_lti_element_id=sakaicar_42" id="switcher" style="height:100; width:90%;"></iframe>
+    </p>
+    <p>
+    <iframe src="event-provider.htm?ext_lti_element_id=sakaiger_42" id="switcher" style="height:100; width:90%;"></iframe>
+    </p>
+    <p>
+    <b>References</b>
+    <ul>
+    <li><a href="https://github.com/bracken/lti_messaging" target="_blank">LTI Messaging from Bracken Mossbacker</a></li>
+    <li><a href="http://www.imsglobal.org/caliper-11-metric-profiles#assessment" target="_blank">Caliper 1.1 Assessment Profile</a></li>
+    </ul>
+    </p>
+<script>
+// Set up the receiving handler
+window.addEventListener('message', function(e) {
+  try {
+    // IE 8 & 9 only support string data, so parse the string.
+    var message = JSON.parse(e.data);
+    switch (message.subject) {
+      case 'caliper.event':
+        console.log(message);
+        var type = message.type; 
+        var action = message.action;
+        var element_id = message.element_id;
+        // Do something other than alert here :)
+        alert(JSON.stringify(message));
+        break;
+    }
+  } catch(err) {
+    (console.error || console.log).call(console, 'invalid message received from');
+  }
+});
+</script>
+</body>

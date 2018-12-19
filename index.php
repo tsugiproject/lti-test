@@ -73,6 +73,30 @@ echo('URL: <a href="'.$cur_url.'">'.$cur_url."</a>\n");
 </p>
 </li>
 <li>
+If you want to play with frame resizing you can use:
+<pre>
+<?php
+  $cur_url = curPageURL();
+  $cur_url = str_replace("index.php","resize.htm",$cur_url);
+echo('URL: <a href="'.$cur_url.'" target="_blank">'.$cur_url."</a>\n");
+?>
+</pre>
+</li>
+<li>
+If you want to play with the experimental event postMessage you can use:
+<pre>
+<?php
+  $cur_url = curPageURL();
+  $cur_url = str_replace("index.php","event-consumer.htm",$cur_url);
+echo('URL: <a href="'.$cur_url.'" target="_blank">'.$cur_url."</a>\n");
+  $cur_url = curPageURL();
+  $cur_url = str_replace("index.php","event-provider.htm",$cur_url);
+echo('URL: <a href="'.$cur_url.'" target="_blank">'.$cur_url."</a> (intended to be in an iframe)\n");
+?>
+</pre>
+</li>
+
+<li>
 If you want to test your LTI 2.0 Tool with Sakai's tool Consumer, you can use our
 nightly server (rebuilt every 4 hours):
 <pre>
