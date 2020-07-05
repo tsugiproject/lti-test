@@ -15,6 +15,15 @@ $return = '{
         "width" : 50,
         "height" : 50
       }
+      "lineItem" : {
+         "@type" : "LineItem",
+          "label" : "The mascot for the Sakai Project",
+          "reportingMethod" : "res:totalScore",
+           "assignedActivity" : {
+                "@id" : "http://www.tsugi.org/assessment/66400",
+                "activity_id" : "a-9334df-33"
+            },
+        },
     }
   ]
 }';
