@@ -14,7 +14,7 @@ $return = '{
         "@id" : "fa-bullseye",
         "width" : 50,
         "height" : 50
-      }
+      },
       "lineItem" : {
          "@type" : "LineItem",
           "label" : "The mascot for the Sakai Project",
@@ -22,8 +22,8 @@ $return = '{
            "assignedActivity" : {
                 "@id" : "http://www.tsugi.org/assessment/66400",
                 "activity_id" : "a-9334df-33"
-            },
-        },
+            }
+        }
     }
   ]
 }';
