@@ -2,6 +2,7 @@
 
 function getLtiLinkJSON($url) {
 
+// https://www.imsglobal.org/specs/lticiv1p0/specification
 $return = '{
   "@context" : "http://purl.imsglobal.org/ctx/lti/v1/ContentItem", 
   "@graph" : [ 
@@ -15,6 +16,14 @@ $return = '{
         "width" : 50,
         "height" : 50
       },
+      "submission" : {
+          "startDatetime" : "2016-11-07T00:00:00Z",
+          "endDatetime" : "2016-12-01T00:00:00Z"
+      },
+      "available" : {
+        "startDatetime" : "2016-10-31T19:20:30Z",
+        "endDatetime" : "2016-12-01T00:00:00Z"
+      },
       "lineItem" : {
          "@type" : "LineItem",
           "label" : "The mascot for the Sakai Project",
@@ -23,6 +32,12 @@ $return = '{
                 "@id" : "http://www.tsugi.org/assessment/66400",
                 "activity_id" : "a-9334df-33"
             }
+        },
+        "scoreConstraints" : {
+            "@type" : "NumericLimits",
+            "normalMaximum" : 100,
+            "extraCreditMaximum" : 10,
+            "totalMaximum" : 110
         }
     }
   ]
