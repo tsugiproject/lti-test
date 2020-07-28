@@ -25,9 +25,7 @@ $return = '{
         },
         "scoreConstraints" : {
           "@type" : "NumericLimits",
-          "normalMaximum" : 100,
-          "extraCreditMaximum" : 10,
-          "totalMaximum" : 110
+          "normalMaximum" : 110
         }
       }
     }
