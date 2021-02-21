@@ -195,7 +195,6 @@ class BLTI {
         // Store the launch information in the session for later
         $newinfo = array();
         foreach($_POST as $key => $value ) {
-		    if (get_magic_quotes_gpc()) $value = stripslashes($value);
             if ( $key == "basiclti_submit" ) continue;
             if ( strpos($key, "oauth_") === false ) {
                 $newinfo[$key] = $value;

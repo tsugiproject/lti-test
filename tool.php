@@ -28,7 +28,6 @@ $context = new BLTI($secret, false, false);
 echo("<p><b>External Tool API Test Harness</b></p>\n");
 
 $sourcedid = $_REQUEST['lis_result_sourcedid'];
-if (get_magic_quotes_gpc()) $sourcedid = stripslashes($sourcedid);
 
 if ( $context->valid ) {
    print "<p style=\"color:green\">Launch Validated.<p>\n";
@@ -194,14 +193,12 @@ print "<pre>\n";
 print "Raw POST Parameters:\n\n";
 ksort($_POST);
 foreach($_POST as $key => $value ) {
-    if (get_magic_quotes_gpc()) $value = stripslashes($value);
     print htmlent_utf8($key) . "=" . htmlent_utf8($value) . " (".mb_detect_encoding($value).")\n";
 }
 
 print "\nRaw GET Parameters:\n\n";
 ksort($_GET);
 foreach($_GET as $key => $value ) {
-    if (get_magic_quotes_gpc()) $value = stripslashes($value);
     print htmlent_utf8($key) . "=" . htmlent_utf8($value) . " (".mb_detect_encoding($value).")\n";
 }
 print "</pre>";

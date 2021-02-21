@@ -97,7 +97,7 @@ echo('<input type="submit" onclick="javascript:lmsdataToggle();return false;" va
   echo("<fieldset><legend>LTI Resource</legend>\n");
   $disabled = '';
   echo("Launch URL: <input size=\"120\" type=\"text\" $disabled name=\"endpoint\" value=\"$endpoint\">\n");
-  echo("<br/>Key: <input type\"text\" name=\"key\" $disapbled size=\"90\" value=\"$key\">\n");
+  echo("<br/>Key: <input type\"text\" name=\"key\" $disabled size=\"90\" value=\"$key\">\n");
   echo("<br/>Secret: <input type\"text\" name=\"secret\" $disabled size=\"90\" value=\"$secret\">\n");
   $iframe = isset($_REQUEST["iframe"]) && $_REQUEST["iframe"] == "true";
   $checked = '';
@@ -113,6 +113,15 @@ echo('<input type="submit" onclick="javascript:lmsdataToggle();return false;" va
       echo(htmlspec_utf8($val));
       echo("\"><br/>\n");
   }
+  $ck1 = isset($_REQUEST["ck1"]) ? $_REQUEST["ck1"] : "";
+  $cv1 = isset($_REQUEST["cv1"]) ? $_REQUEST["cv1"] : "";
+  echo("<br/>Custom:");
+  echo("<br/><input type\"text\" name=\"ck1\" size=\"20\" value=\"$ck1\"> = \n");
+  echo("<input type\"text\" name=\"cv1\" size=\"20\" value=\"$cv1\">\n");
+  $ck2 = isset($_REQUEST["ck2"]) ? $_REQUEST["ck2"] : "";
+  $cv2 = isset($_REQUEST["cv2"]) ? $_REQUEST["cv2"] : "";
+  echo("<br/><input type\"text\" name=\"ck2\" size=\"20\" value=\"$ck2\"> = \n");
+  echo("<input type\"text\" name=\"cv2\" size=\"20\" value=\"$cv2\">\n");
   echo("</fieldset>\n");
   echo("</form>\n");
   echo("</div>\n");
@@ -135,10 +144,15 @@ echo('<input type="submit" onclick="javascript:lmsdataToggle();return false;" va
     
 if ( strpos($cur_url, "localhost" ) === FALSE ) $parms['launch_presentation_css_url'] = $cssurl;
 
-addCustom($parms, array(
+$custom = array(
     "simple_key" => "custom_simple_value",
     "Complex!@#$^*(){}[]KEY" => "Complex!@#$^*(){}[]½Value"
-));
+);
+
+if ( strlen($ck1) > 0 ) $custom[$ck1] = $cv1;
+if ( strlen($ck2) > 0 ) $custom[$ck2] = $cv2;
+
+addCustom($parms, $custom);
 
 if ( (isset($_REQUEST["cert_num"]) && $secret != "secret" ) || 
       isset($_POST['launch']) || isset($_POST['debug']) ) {
