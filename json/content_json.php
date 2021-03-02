@@ -11,7 +11,8 @@ $content_url = isset($_REQUEST['content_url']) ? $_REQUEST['content_url'] : preg
 $max_points = isset($_REQUEST['max_points']) ? $_REQUEST['max_points'] : 100;
 
 $result_url = isset($_REQUEST['url']) ? $_REQUEST['url'] : $_POST['content_item_return_url'];
-$oauth_consumer_key = isset($_REQUEST['key']) ? $_REQUEST['key'] : $_SESSION['oauth_consumer_key'];
+$session_key = isset($_SESSION['oauth_consumer_key']) ? $_SESSION['oauth_consumer_key'] : false;
+$oauth_consumer_key = isset($_REQUEST['key']) ? $_REQUEST['key'] : $session_key;
 $oauth_consumer_secret = isset($_REQUEST['secret']) ? $_REQUEST['secret'] : 'secret';
 $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : "The Awesome Sakaiger Title";
 $text = isset($_REQUEST['text']) ? $_REQUEST['text'] : "The Awesome Sakaiger Text";
@@ -25,7 +26,7 @@ $val2 = isset($_REQUEST['val2']) ? $_REQUEST['val2'] : "";
 if (strlen($oauth_consumer_secret) < 1 || strlen($oauth_consumer_key) < 1 
     || strlen($result_url) < 1 ) {
     var_dump($_SESSION);
-    die("Must have url, reg_password and reg_key in sesison or as GET parameters");
+    die("Must have url, reg_password and reg_key in session or as GET parameters");
 }
 
 if ( isset($_REQUEST['send']) ) {
