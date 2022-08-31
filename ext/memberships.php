@@ -70,7 +70,6 @@ echo "Posting to URL $url \n";
 
 ksort($newdata);
 foreach($newdata as $key => $value ) {
-    if (get_magic_quotes_gpc()) $value = stripslashes($value);
     print "$key=$value (".mb_detect_encoding($value).")\n";
 }
 

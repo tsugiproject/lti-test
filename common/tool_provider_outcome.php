@@ -24,7 +24,6 @@ $oauth_consumer_secret = $_REQUEST['secret'];
 if (strlen($oauth_consumer_secret) < 1 ) $oauth_consumer_secret = 'secret';
 
 $sourcedid = $_REQUEST['sourcedid'];
-if (get_magic_quotes_gpc()) $sourcedid = stripslashes($sourcedid);
 
 $signature = false;
 if ( isset($_REQUEST['oauth_signature_method']) ) $signature = $_REQUEST['oauth_signature_method'];
