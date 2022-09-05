@@ -89,6 +89,8 @@ echo $LastOAuthBodyBaseString;
 echo "\n</p>\n<pre>\n";
 $retval = do_body_request($url, "POST", http_build_query($newdata));
 
+echo(htmlentities(get_body_received_debug()));
+
 $retval = str_replace("<","&lt;",$retval);
 $retval = str_replace(">","&gt;",$retval);
 echo "Response from server\n";
