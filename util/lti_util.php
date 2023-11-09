@@ -1,18 +1,16 @@
 <?php
 
-// Just turn if off...
-if ( function_exists ( 'libxml_disable_entity_loader' ) ) libxml_disable_entity_loader();
-
 require_once 'OAuth.php';
 
 // Returns true if this is a Basic LTI message
 // with minimum values to meet the protocol
 function is_lti_request() {
-   $good_message_type = $_REQUEST["lti_message_type"] == "basic-lti-launch-request" ||
-        $_REQUEST["lti_message_type"] == "ToolProxyReregistrationRequest" || 
-        $_REQUEST["lti_message_type"] == "ContentItemSelection" ||
-        $_REQUEST["lti_message_type"] == "ContentItemSelectionRequest";
-   $good_lti_version = $_REQUEST["lti_version"] == "LTI-1p0" || $_REQUEST["lti_version"] == "LTI-2p0";
+    $good_message_type = ($_REQUEST["lti_message_type"] ?? '')  == "basic-lti-launch-request" ||
+        ($_REQUEST["lti_message_type"] ?? '') == "ToolProxyReregistrationRequest" || 
+        ($_REQUEST["lti_message_type"] ?? '') == "ContentItemSelection" ||
+        ($_REQUEST["lti_message_type"] ?? '') == "ContentItemSelectionRequest";
+    $good_lti_version = ($_REQUEST["lti_version"] ?? ' ')  == "LTI-1p0" || 
+            ($_REQUEST["lti_version"] ?? ' ') == "LTI-2p0";
    if ($good_message_type and $good_lti_version ) return(true);
    return false;
 }
@@ -242,19 +240,19 @@ class BLTI {
     }
 
     function getUserEmail() {
-        $email = $this->info['lis_person_contact_email_primary'];
+        $email = $this->info['lis_person_contact_email_primary'] ?? '';
         if ( strlen($email) > 0 ) return $email;
         # Sakai Hack
-        $email = $this->info['lis_person_contact_emailprimary'];
+        $email = $this->info['lis_person_contact_emailprimary'] ?? '';
         if ( strlen($email) > 0 ) return $email;
         return false;
     }
 
     function getUserShortName() {
         $email = $this->getUserEmail();
-        $givenname = $this->info['lis_person_name_given'];
-        $familyname = $this->info['lis_person_name_family'];
-        $fullname = $this->info['lis_person_name_full'];
+        $givenname = $this->info['lis_person_name_given'] ?? '';
+        $familyname = $this->info['lis_person_name_family'] ?? '';
+        $fullname = $this->info['lis_person_name_full'] ?? '';
         if ( strlen($email) > 0 ) return $email;
         if ( strlen($givenname) > 0 ) return $givenname;
         if ( strlen($familyname) > 0 ) return $familyname;
@@ -262,9 +260,9 @@ class BLTI {
     }
 
     function getUserName() {
-        $givenname = $this->info['lis_person_name_given'];
-        $familyname = $this->info['lis_person_name_family'];
-        $fullname = $this->info['lis_person_name_full'];
+        $givenname = $this->info['lis_person_name_given'] ?? '';
+        $familyname = $this->info['lis_person_name_family'] ?? '';
+        $fullname = $this->info['lis_person_name_full'] ?? '';
         if ( strlen($fullname) > 0 ) return $fullname;
         if ( strlen($familyname) > 0 and strlen($givenname) > 0 ) return $givenname . ' ' . $familyname;
         if ( strlen($givenname) > 0 ) return $givenname;
@@ -296,7 +294,7 @@ class BLTI {
     }
 
     function getUserImage() {
-        $image = $this->info['user_image'];
+        $image = $this->info['user_image'] ?? '';
         if ( strlen($image) > 0 ) return $image;
         $email = $this->getUserEmail();
         if ( $email === false ) return false;
@@ -392,7 +390,7 @@ class BLTI {
     }
 
     function getOutcomeSourceDID() {
-        $retval = $this->info['lis_result_sourcedid'];
+    $retval = $this->info['lis_result_sourcedid'] ?? '';
     if ( strlen($retval) > 1 ) return $retval;
     return false;
     }

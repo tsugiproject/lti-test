@@ -26,7 +26,7 @@ if ( isset($_REQUEST['cert_num']) ) $cert_num = $_REQUEST['cert_num'] + 0;
 $cur_url = curPageURL();
 echo("<p>Pre-configured certification launch data sets: ");
 for ( $i=0; $i < count($lmsdata_cert); $i++) {
-   echo('<a href="'.$curPageUrl.'?cert_num='.$i.'">'.$i."</a>\n");
+   echo('<a href="'.$cur_url.'?cert_num='.$i.'">'.$i."</a>\n");
 }
 if ( isset($_REQUEST['cert_num']) ) {
     echo('Before running the certification tests, you must first <a href="http://www.imsglobal.org/developers/alliance/LTI/cert/index.php" target="_blank">Login</a> and set up the tests using your IMS membership credentials.'."\n");
@@ -36,7 +36,7 @@ echo("</p>");
 $lmsdata = $lmsdata_cert[$cert_num];
 
 foreach ($lmsdata as $k => $val ) {
-    if ( $_POST[$k] && strlen($_POST[$k]) > 0 ) {
+    if ( $_POST[$k] ?? '' && strlen($_POST[$k]) > 0 ) {
       $lmsdata[$k] = $_POST[$k];
     }
 }
@@ -51,7 +51,7 @@ if ( isset($_SESSION["secret"]) ) $secret = $_SESSION["secret"];
 if ( isset($_REQUEST["secret"]) ) $secret = trim($_REQUEST["secret"]);
 $_SESSION["secret"] = $secret;
 
-$endpoint = trim($_REQUEST["endpoint"]);
+$endpoint = trim($_REQUEST["endpoint"] ?? ' ');
 if ( ! $endpoint ) {
     if ( isset($_REQUEST['cert_num']) ) {
         $endpoint = "http://www.imsglobal.org/developers/alliance/LTI/cert/tc_tool.php?x=With%20Space&y=yes";

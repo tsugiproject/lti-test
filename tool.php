@@ -14,7 +14,7 @@ $cur_url = curPageURL();
 // Initialize, all secrets are 'secret', do not set session, and do not redirect
 $key = isset($_POST['oauth_consumer_key']) ? $_POST['oauth_consumer_key'] : false;
 $secret = "secret";
-$_SESSION['oauth_consumer_key'] = $_POST['oauth_consumer_key'];
+$_SESSION['oauth_consumer_key'] = $_POST['oauth_consumer_key'] ?? '';
 $_SESSION['secret'] = "secret";
 $context = new BLTI($secret, false, false);
 ?>
@@ -27,11 +27,11 @@ $context = new BLTI($secret, false, false);
 <?php
 echo("<p><b>External Tool API Test Harness</b></p>\n");
 
-$sourcedid = $_REQUEST['lis_result_sourcedid'];
+$sourcedid = $_REQUEST['lis_result_sourcedid'] ?? '';
 
 if ( $context->valid ) {
    print "<p style=\"color:green\">Launch Validated.<p>\n";
-   if ( $_POST['launch_presentation_return_url']) {
+   if ( $_POST['launch_presentation_return_url'] ?? null ) {
      $msg = 'A%20message%20from%20the%20tool%20provider.';
      $error_msg = 'An%20error%20message%20from%20the%20tool%20provider.';
      $sep = (strpos($_POST['launch_presentation_return_url'], '?') === FALSE) ? '?' : '&amp;';
@@ -42,7 +42,8 @@ if ( $context->valid ) {
    }
 
    $found = false;
-    if ( $_POST['lis_result_sourcedid'] && $_POST['lis_outcome_service_url'] ) {
+   if ( ($_POST['lis_result_sourcedid'] ?? null) && 
+        ($_POST['lis_outcome_service_url'] ?? null) ) {
         print "<p>\n";
         print '<a href="common/tool_provider_outcome.php?sourcedid='.urlencode($sourcedid);
         print '&key='.urlencode($_POST['oauth_consumer_key']);
@@ -51,7 +52,7 @@ if ( $context->valid ) {
         if ( isset($_POST['oauth_signature_method']) && $_POST['oauth_signature_method'] != 'HMAC-SHA1' ) {
             print '&oauth_signature_method='.urlencode($_POST['oauth_signature_method']).'">';
         }
-        print '&accepted='.urlencode($_POST['ext_outcome_data_values_accepted']).'">';
+        print '&accepted='.urlencode($_POST['ext_outcome_data_values_accepted'] ?? '').'">';
         print 'Test LTI 1.1 Outcome Service</a>.</p>'."\n";
 		$found = true;
     }
@@ -109,7 +110,8 @@ if ( $context->valid ) {
 	$found = true;
     }
 
-    if ( $_POST['ext_ims_lis_memberships_id'] && $_POST['ext_ims_lis_memberships_url'] ) {
+    if ( ($_POST['ext_ims_lis_memberships_id'] ?? null) && 
+        ($_POST['ext_ims_lis_memberships_url'] ?? null) ) {
         print "<p>\n";
         print '<a href="ext/memberships.php?id='.htmlent_utf8($_POST['ext_ims_lis_memberships_id']);
         print '&key='.urlencode($_POST['oauth_consumer_key']);
@@ -118,16 +120,18 @@ if ( $context->valid ) {
 		$found = true;
     }
 
-    if ( $_POST['lis_result_sourcedid'] && $_POST['ext_ims_lis_basic_outcome_url'] ) {
+    if ( ($_POST['lis_result_sourcedid'] ?? null) &&
+         ($_POST['ext_ims_lis_basic_outcome_url'] ?? null ) ) {
         print "<p>\n";
         print '<a href="ext/setoutcome.php?sourcedid='.$sourcedid;
         print '&key='.urlencode($_POST['oauth_consumer_key']);
-        print '&accepted='.urlencode($_POST['ext_outcome_data_values_accepted']);
-        print '&url='.urlencode($_POST['ext_ims_lis_basic_outcome_url']).'">';
+        print '&accepted='.urlencode($_POST['ext_outcome_data_values_accepted'] ?? '');
+        print '&url='.urlencode($_POST['ext_ims_lis_basic_outcome_url'] ?? '').'">';
         print 'Test Sakai Outcome API</a>.</p>'."\n";
 		$found = true;
     } 
-    if ( $_POST['ext_ims_lti_tool_setting_id'] && $_POST['ext_ims_lti_tool_setting_url'] ) {
+    if ( ($_POST['ext_ims_lti_tool_setting_id'] ?? null) && 
+         ($_POST['ext_ims_lti_tool_setting_url'] ?? null) ) {
         print "<p>\n";
         print '<a href="ext/setting.php?id='.htmlent_utf8($_POST['ext_ims_lti_tool_setting_id']);
         print '&key='.urlencode($_POST['oauth_consumer_key']);
