@@ -611,6 +611,7 @@ function get_string($key,$bundle) {
 
 function do_body_request($url, $method, $data, $optional_headers = null)
 {
+  $header = '';
   if ($optional_headers !== null) {
      $header = $optional_headers . "\r\n";
   }

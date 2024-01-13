@@ -20,7 +20,7 @@ if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
 
 ini_set("display_errors", 1);
 
-$oauth_consumer_secret = $_REQUEST['secret'];
+$oauth_consumer_secret = $_REQUEST['secret'] ?? 'secret';
 if (strlen($oauth_consumer_secret) < 1 ) $oauth_consumer_secret = 'secret';
 
 $sourcedid = $_REQUEST['sourcedid'];
@@ -35,9 +35,9 @@ Service URL: <input type="text" name="url" size="100" disabled="true" value="<?p
 lis_result_sourcedid: <input type="text" name="sourcedid" disabled="true" size="100" value="<?php echo(htmlent_utf8($sourcedid));?>"/></br>
 OAuth Consumer Key: <input type="text" name="key" disabled="true" size="80" value="<?php echo(htmlent_utf8($_REQUEST['key']));?>"/></br>
 OAuth Consumer Secret: <input type="text" name="secret" size="80" value="<?php echo(htmlent_utf8($oauth_consumer_secret));?>"/></br>
-OAuth Signature Method: <input type="text" name="oauth_signature_method" value="<?php echo(htmlent_utf8($_REQUEST['oauth_signature_method']));?>"/></br>
+OAuth Signature Method: <input type="text" name="oauth_signature_method" value="<?php echo(htmlent_utf8($_REQUEST['oauth_signature_method'] ?? ''));?>"/></br>
 </p><p>
-Grade to Send to LMS: <input type="text" name="grade" value="<?php echo(htmlent_utf8($_REQUEST['grade']));?>"/>
+Grade to Send to LMS: <input type="text" name="grade" value="<?php echo(htmlent_utf8($_REQUEST['grade'] ?? ''));?>"/>
 (i.e. 0.95)<br/>
 <?php  if ( strpos($_REQUEST['accepted'],"text") !== false ) { ?>
 Comment to Send to LMS: <input type="text" name="comment" size="60" value="<?php echo($_REQUEST['comment']);?>"/>(extension)<br/>
@@ -72,7 +72,7 @@ $content_type = "application/xml";
 
 $sourcedid = htmlspec_utf8($sourcedid);
 
-if ( $_REQUEST['submit'] == "Send Grade" && isset($_REQUEST['grade'] ) ) {
+if ( ($_REQUEST['submit'] ?? '') == "Send Grade" && isset($_REQUEST['grade'] ) ) {
     $operation = 'replaceResultRequest';
     $postBody = str_replace(
 	array('SOURCEDID', 'GRADE', 'OPERATION','MESSAGE'), 
@@ -83,13 +83,13 @@ if ( $_REQUEST['submit'] == "Send Grade" && isset($_REQUEST['grade'] ) ) {
         "</resultScore>\n<resultData>\n<text>\n".$_REQUEST['comment'].
         "\n</text>\n</resultData>", $postBody);
     }
-} else if ( $_REQUEST['submit'] == "Read Grade" ) {
+} else if ( ($_REQUEST['submit'] ?? '') == "Read Grade" ) {
     $operation = 'readResultRequest';
     $postBody = str_replace(
 	array('SOURCEDID', 'OPERATION','MESSAGE'), 
 	array($sourcedid, $operation, uniqid()), 
 	getPOXRequest());
-} else if ( $_REQUEST['submit'] == "Delete Grade" ) {
+} else if ( ($_REQUEST['submit'] ?? '') == "Delete Grade" ) {
     $operation = 'deleteResultRequest';
     $postBody = str_replace(
 	array('SOURCEDID', 'OPERATION','MESSAGE'), 

@@ -20,7 +20,7 @@ require_once '../util/lti_util.php';
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
 
-$oauth_consumer_secret = $_REQUEST['secret'];
+$oauth_consumer_secret = $_REQUEST['secret'] ?? 'secret';
 if (strlen($oauth_consumer_secret) < 1 ) $oauth_consumer_secret = 'secret';
 ?>
 <p>
