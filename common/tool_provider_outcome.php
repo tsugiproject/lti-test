@@ -39,8 +39,8 @@ OAuth Signature Method: <input type="text" name="oauth_signature_method" value="
 </p><p>
 Grade to Send to LMS: <input type="text" name="grade" value="<?php echo(htmlent_utf8($_REQUEST['grade'] ?? ''));?>"/>
 (i.e. 0.95)<br/>
-<?php  if ( strpos($_REQUEST['accepted'],"text") !== false ) { ?>
-Comment to Send to LMS: <input type="text" name="comment" size="60" value="<?php echo($_REQUEST['comment']);?>"/>(extension)<br/>
+<?php  if ( strpos(($_REQUEST['accepted'] ?? ''),"text") !== false ) { ?>
+Comment to Send to LMS: <input type="text" name="comment" size="60" value="<?php echo($_REQUEST['comment'] ?? '');?>"/>(extension)<br/>
 <?php } ?>
 <input type="hidden" name="accepted" value="<?php echo(htmlent_utf8($_REQUEST['accepted']));?>"/></br>
 <input type='submit' name='submit' value="Send Grade">
