@@ -16,11 +16,11 @@ function is_lti_request() {
 }
 
 function htmlspec_utf8($string) {
-	return htmlspecialchars($string,ENT_QUOTES,$encoding = 'UTF-8');
+    return htmlspecialchars($string,ENT_QUOTES,$encoding = 'UTF-8');
 }
 
 function htmlent_utf8($string) {
-	return htmlentities($string,ENT_QUOTES,$encoding = 'UTF-8');
+    return htmlentities($string,ENT_QUOTES,$encoding = 'UTF-8');
 }
 
 function isHttps() {
@@ -34,10 +34,10 @@ function isHttps() {
 $ltiUtilTogglePre_div_id = 1;
 // Useful for debugging
 function ltiUtilTogglePre($title, $content) {
-	global $ltiUtilTogglePre_div_id;
+    global $ltiUtilTogglePre_div_id;
     echo('<b>'.$title);
     echo(' (<a href="#" onclick="dataToggle('.
-		"'ltiUtilTogglePre_".$ltiUtilTogglePre_div_id."'".');return false;">Toggle</a>)</b><br/>'."\n");
+        "'ltiUtilTogglePre_".$ltiUtilTogglePre_div_id."'".');return false;">Toggle</a>)</b><br/>'."\n");
     echo('<pre id="ltiUtilTogglePre_'.$ltiUtilTogglePre_div_id.'" style="display:none; border: solid 1px">'."\n");
     echo(htmlent_utf8($content));
     echo("</pre>\n");
@@ -322,7 +322,7 @@ class BLTI {
     }
 
     function getResourceID() {
-    return $this->resource_id;
+        return $this->resource_id;
     }
 
     function getResourceTitle() {
@@ -337,17 +337,17 @@ class BLTI {
     }
 
     function setConsumerID($new_id) {
-    $this->consumer_id = $new_id;
+        $this->consumer_id = $new_id;
     }
 
     function getConsumerID() {
-    return $this->consumer_id;
+        return $this->consumer_id;
     }
 
     function getCourseLKey() {
         if ( $this->context_id ) return $this->context_id;
         $id = $this->info['context_id'];
-        if ( strlen($id) > 0 ) return $id;
+        if ( is_string($id) && strlen($id) > 0 ) return $id;
         return false;
     }
 
@@ -360,38 +360,39 @@ class BLTI {
     }
 
     function setCourseID($new_id) {
-    $this->course_id = $new_id;
+        $this->course_id = $new_id;
     }
 
     function getCourseID() {
-    return $this->course_id;
+        return $this->course_id;
     }
 
     function getCourseName() {
-        $label = $this->info['context_label'];
-        $title = $this->info['context_title'];
+        $label = $this->info['context_label'] ?? null;
+        $title = $this->info['context_title'] ?? null;
         $id = $this->info['context_id'];
-        if ( strlen($label) > 0 ) return $label;
-        if ( strlen($title) > 0 ) return $title;
-        if ( strlen($id) > 0 ) return $id;
+        if ( is_string($label) && strlen($label) > 0 ) return $label;
+        if ( is_string($title) && strlen($title) > 0 ) return $title;
+        if (is_string($id) &&  strlen($id) > 0 ) return $id;
         return false;
     }
 
     function getCSS() {
-        $list = $this->info['launch_presentation_css_url'];
+        $list = $this->info['launch_presentation_css_url'] ?? null;
+        if ( !is_string($list) ) return array();
         if ( strlen($list) < 1 ) return array();
         return explode(',',$list);
     }
 
     function getOutcomeService() {
-        $retval = $this->info['lis_outcome_service_url'];
-    if ( strlen($retval) > 1 ) return $retval;
-    return false;
+        $retval = $this->info['lis_outcome_service_url'] ?? null;
+        if ( is_string($retval) && strlen($retval) > 1 ) return $retval;
+        return false;
     }
 
     function getOutcomeSourceDID() {
     $retval = $this->info['lis_result_sourcedid'] ?? '';
-    if ( strlen($retval) > 1 ) return $retval;
+    if ( is_string($retval) && strlen($retval) > 1 ) return $retval;
     return false;
     }
 
@@ -804,7 +805,7 @@ function do_get($url, $header = false) {
     global $last_http_response;
     global $LastHeadersReceived;
 
-	$LastGETURL = $url;
+    $LastGETURL = $url;
     $LastGETMethod = false;
     $LastHeadersSent = false;
     $last_http_response = false;
@@ -923,9 +924,9 @@ function get_body_sent_debug() {
     global $LastHeadersSent;
 
     $ret = $LastBODYMethod . " Used: " . $LastBODYImpl . "\n" . 
-	     $LastBODYURL . "\n\n" .
-		 $LastHeadersSent . "\n";
-	return $ret;
+         $LastBODYURL . "\n\n" .
+         $LastHeadersSent . "\n";
+    return $ret;
 }
 
 function get_body_received_debug() {
@@ -936,10 +937,10 @@ function get_body_received_debug() {
     global $last_http_response;
 
     $ret = $LastBODYMethod . " Used: " . $LastBODYImpl . "\n" . 
-		 "HTTP Response Code: " . $last_http_response . "\n" .
-	     $LastBODYURL . "\n" .
-		 $LastHeadersReceived . "\n";
-	return $ret;
+         "HTTP Response Code: " . $last_http_response . "\n" .
+         $LastBODYURL . "\n" .
+         $LastHeadersReceived . "\n";
+    return $ret;
 }
 
 function get_get_sent_debug() {
@@ -948,9 +949,9 @@ function get_get_sent_debug() {
     global $LastHeadersSent;
 
     $ret = "GET Used: " . $LastGETMethod . "\n" . 
-	     $LastGETURL . "\n\n" .
-		 $LastHeadersSent . "\n";
-	return $ret;
+         $LastGETURL . "\n\n" .
+         $LastHeadersSent . "\n";
+    return $ret;
 }
 
 function get_get_received_debug() {
@@ -960,10 +961,10 @@ function get_get_received_debug() {
     global $LastHeadersReceived;
 
     $ret = "GET Used: " . $LastGETMethod . "\n" .
-		 "HTTP Response: " . $last_http_response . "\n" .
-	     $LastGETURL . "\n" .
-		 $LastHeadersReceived . "\n";
-	return $ret;
+         "HTTP Response: " . $last_http_response . "\n" .
+         $LastGETURL . "\n" .
+         $LastHeadersReceived . "\n";
+    return $ret;
 }
 
 // Sadly this tries several approaches depending on 
@@ -979,7 +980,7 @@ function do_body($url, $method, $body, $header) {
     global $LastHeadersReceived;
     global $LastBODYResponse;
 
-	$LastBODYURL = $url;
+    $LastBODYURL = $url;
     $LastBODYMethod = $method;
     $LastBODYImpl = false;
     $LastHeadersSent = false;
@@ -1259,51 +1260,51 @@ function parseResponse($response) {
 // This is setup to be displayed in <pre> tags as newlines are added
 function compare_base_strings($string1, $string2)
 {
-	if ( $string1 == $string2 ) return true;
+    if ( $string1 == $string2 ) return true;
 
-	$out2 = "";
-	$out1 = "";
+    $out2 = "";
+    $out1 = "";
     $chars = 0;
-	$oops = false;
+    $oops = false;
     for($i=0; $i<strlen($string1)&&$i<strlen($string2); $i++) {
-		if ( $oops || $string1[$i] == $string2[$i] ) {
-			$out1 = $out1 . $string1[$i];
-			$out2 = $out2 . $string2[$i];
-		} else { 
-			$out1 = $out1 . ' ->' . $string1[$i] .'<- ';
-			$out2 = $out2 . ' ->' . $string2[$i] .'<- ';
-			$oops = true;
-		}
-		$chars = $chars + 1;
-		if ( $chars > 79 ) {
-			$out1 .= "\n";
-			$out2 .= "\n";
-			$chars = 0;
-		}
-	}
-	if ( $i < strlen($string1) ) {
-		$out2 = $out2 . ' -> truncated ';
-		for($i=0; $i<strlen($string1); $i++) {
-			$out1 = $out1 . $string1[$i];
-			$chars = $chars + 1;
-			if ( $chars > 79 ) {
-				$out1 .= "\n";
-				$chars = 0;
-			}
-		}
-	}
+        if ( $oops || $string1[$i] == $string2[$i] ) {
+            $out1 = $out1 . $string1[$i];
+            $out2 = $out2 . $string2[$i];
+        } else { 
+            $out1 = $out1 . ' ->' . $string1[$i] .'<- ';
+            $out2 = $out2 . ' ->' . $string2[$i] .'<- ';
+            $oops = true;
+        }
+        $chars = $chars + 1;
+        if ( $chars > 79 ) {
+            $out1 .= "\n";
+            $out2 .= "\n";
+            $chars = 0;
+        }
+    }
+    if ( $i < strlen($string1) ) {
+        $out2 = $out2 . ' -> truncated ';
+        for($i=0; $i<strlen($string1); $i++) {
+            $out1 = $out1 . $string1[$i];
+            $chars = $chars + 1;
+            if ( $chars > 79 ) {
+                $out1 .= "\n";
+                $chars = 0;
+            }
+        }
+    }
 
-	if ( $i < strlen($string2) ) {
-		$out1 = $out1 . ' -> truncated ';
-		for($i=0; $i<strlen($string2); $i++) {
-			$out2 = $out2 . $string2[$i];
-			$chars = $chars + 2;
-			if ( $chars > 79 ) {
-				$out2 .= "\n";
-				$chars = 0;
-			}
-		}
-	}
-	return $out1 . "\n-------------\n" . $out2 . "\n";
+    if ( $i < strlen($string2) ) {
+        $out1 = $out1 . ' -> truncated ';
+        for($i=0; $i<strlen($string2); $i++) {
+            $out2 = $out2 . $string2[$i];
+            $chars = $chars + 2;
+            if ( $chars > 79 ) {
+                $out2 .= "\n";
+                $chars = 0;
+            }
+        }
+    }
+    return $out1 . "\n-------------\n" . $out2 . "\n";
 }
 ?>
