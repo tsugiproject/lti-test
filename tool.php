@@ -120,16 +120,6 @@ if ( $context->valid ) {
 		$found = true;
     }
 
-    if ( ($_POST['lis_result_sourcedid'] ?? null) &&
-         ($_POST['ext_ims_lis_basic_outcome_url'] ?? null ) ) {
-        print "<p>\n";
-        print '<a href="ext/setoutcome.php?sourcedid='.$sourcedid;
-        print '&key='.urlencode($_POST['oauth_consumer_key']);
-        print '&accepted='.urlencode($_POST['ext_outcome_data_values_accepted'] ?? '');
-        print '&url='.urlencode($_POST['ext_ims_lis_basic_outcome_url'] ?? '').'">';
-        print 'Test Sakai Outcome API</a>.</p>'."\n";
-		$found = true;
-    } 
     if ( ($_POST['ext_ims_lti_tool_setting_id'] ?? null) && 
          ($_POST['ext_ims_lti_tool_setting_url'] ?? null) ) {
         print "<p>\n";
