@@ -52,6 +52,8 @@ $b64 = explode(":::", $b64dec);
 $oauth_consumer_key = $b64[0];
 $oauth_consumer_secret = $b64[1];
 
+$message_ref = '';  // Set when we parse the request body; empty for early exits
+
 if ( strlen($oauth_consumer_key) < 1 || strlen($oauth_consumer_secret) < 1 ) {
    echo(sprintf($response,uniqid(),'failure', "Missing key/secret B64=$b64dec B64key=$oauth_consumer_key secret=$oauth_consumer_secret",$message_ref,"",""));
    exit();
