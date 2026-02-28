@@ -231,22 +231,21 @@ if ( $context->valid ) {
 <form>
 <label for="subject">subject:</label>
 <select name="subject" id="subject">
-   <option value="">Other →</option>
    <option value="lti.capabilities">lti.capabilities</option>
    <option value="lti.put_data">lti.put_data</option>
    <option value="lti.get_data">lti.get_data</option>
    <option value="lti.close">lti.close</option>
-   <option value="lti.frameResize">lti.frameResize</option>
+   <option value="lti.frameResize" selected>lti.frameResize</option>
    <option value="lti.pageRefresh">lti.pageRefresh</option>
    <option value="org.imsglobal.lti.capabilities">org.imsglobal.lti.capabilities</option>
    <option value="org.imsglobal.lti.put_data">org.imsglobal.lti.put_data</option>
    <option value="org.imsglobal.lti.get_data">org.imsglobal.lti.get_data</option>
+   <option value="">Other</option>
 </select>
-<input type="text" name="other_subject" id="other_subject"><br/>
+<span id="pm-height-wrap"> <label for="height">height:</label> <input type="text" name="height" id="height" size="6" placeholder="e.g. 400"></span>
+<span id="pm-other-wrap" style="display:none;"> <input type="text" name="other_subject" id="other_subject" placeholder="custom subject"></span><br/>
 <label for="message_id">message_id:</label>
 <input type="text" name="message_id" id="message_id"> (optional)<br/>
-<label for="height">height:</label>
-<input type="text" name="height" id="height"> (for lti.frameResize only)<br/>
 <label for="key">key:</label>
 <input type="text" name="key" id="key"> (optional)<br/>
 <label for="value">value:</label>
@@ -284,6 +283,22 @@ if ( $context->valid ) {
     }
   }
   checkPostMsgFrame();
+  function updateSubjectFields() {
+    var subjectSelect = document.getElementById('subject');
+    var otherWrap = document.getElementById('pm-other-wrap');
+    var heightWrap = document.getElementById('pm-height-wrap');
+    if (subjectSelect && otherWrap && heightWrap) {
+      var val = subjectSelect.value;
+      var isFrameResize = (val === 'lti.frameResize');
+      otherWrap.style.display = (val === '') ? 'inline' : 'none';
+      heightWrap.style.display = isFrameResize ? 'inline' : 'none';
+    }
+  }
+  var subjectSelect = document.getElementById('subject');
+  if (subjectSelect) {
+    subjectSelect.addEventListener('change', updateSubjectFields);
+    updateSubjectFields();
+  }
   document.querySelectorAll('.tab-link').forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
